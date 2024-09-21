@@ -42,10 +42,4 @@ def GetOpenDayList ():
 if __name__ == '__main__':
     OpenDayList = GetOpenDayList()
     print(OpenDayList)
-    print(OpenDayList)
-    print(OpenDayList)
-    print(OpenDayList)
-    print(OpenDayList)
-    output_file = os.getenv('GITHUB_OUTPUT')  
-    with open(output_file, "a") as myfile:
-        myfile.write(f"changelog={OpenDayList}")
+
