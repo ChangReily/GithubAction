@@ -39,10 +39,10 @@ jobs:
         
       - name: Display Python version
         run: |
-          output=$(python Test.py)
-          output="${output//'%'/'%25'}"
-          output="${output//$'\n'}"
-          output="${output//$'\r'/'%0D'}" 
+          # output=$(python Test.py)
+          # output="${output//'%'/'%25'}"
+          # output="${output//$'\n'}"
+          # output="${output//$'\r'/'%0D'}" 
           # echo "::set-output name=changelog::$output"
           echo "changelog=$output" >> $GITHUB_OUTPUT
         id: step1
