@@ -41,3 +41,5 @@ def GetOpenDayList ():
 if __name__ == '__main__':
     OpenDayList = GetOpenDayList()
     print(OpenDayList)
+    print(OpenDayList)
+    print(OpenDayList)
