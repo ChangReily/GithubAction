@@ -38,4 +38,10 @@ jobs:
             if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
       - name: Display Python version
-        run: python Test.py
+        id: testresult
+        run: |
+            export RESULT=$(python Test.py)
+
+      - name: Display Python version
+        run: |
+            echo ${{setps.testresult.outputs.RESULT}}
