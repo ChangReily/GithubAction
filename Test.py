@@ -132,7 +132,7 @@ def GetList():
             HttpsSession.close()
             time.sleep(10)
             continue
-    df = pd.read_html(resp.text)[0]
+    df = pd.read_html(StringIO(resp.text))[0]
     df.columns = df.iloc[0]
     df = df.drop(['備註'], axis=1)
     df = df.rename(columns={'有價證券代號及名稱': 'SecurityCodeName',
