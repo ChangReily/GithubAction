@@ -39,7 +39,7 @@ jobs:
         
       - name: Display Python version
         run: |
-          # output=$(python Test.py)
+          output=$(python Test.py)
           # output="${output//'%'/'%25'}"
           # output="${output//$'\n'}"
           # output="${output//$'\r'/'%0D'}" 
