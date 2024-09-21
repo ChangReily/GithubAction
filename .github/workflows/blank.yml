@@ -39,12 +39,12 @@ jobs:
         
       - name: Display Python version
         run: |
-          output=$(python Test.py)
+          python Test.py
           # output="${output//'%'/'%25'}"
           # output="${output//$'\n'}"
           # output="${output//$'\r'/'%0D'}" 
           # echo "::set-output name=changelog::$output"
-          echo "changelog=$output" >> $GITHUB_OUTPUT
-        id: step1
+          # echo "changelog=$output" >> $GITHUB_OUTPUT
+        #id: step1
       - name: Print changelog
         run: echo "${{ steps.step1.outputs.changelog }}"
