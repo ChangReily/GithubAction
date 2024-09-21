@@ -37,11 +37,6 @@ jobs:
             python -m pip install --upgrade pip
             if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
-      - name: Display Python version
-        id: testresult
+      - name: Run Python
         run: |
-            export RESULT=$(python Test.py)
-
-      - name: Display Python version
-        run: |
-            echo ${{setps.testresult.outputs.RESULT}}
+          python Test.py

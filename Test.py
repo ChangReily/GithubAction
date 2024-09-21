@@ -1,4 +1,5 @@
 import sys
+import os
 import pandas as pd
 import datetime
 import requests
@@ -41,3 +42,4 @@ def GetOpenDayList ():
 if __name__ == '__main__':
     OpenDayList = GetOpenDayList()
     print(OpenDayList)
+
