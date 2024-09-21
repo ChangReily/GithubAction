@@ -38,10 +38,12 @@ jobs:
             if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
       - name: Display Python version
-        id: testresult
         run: |
-            export RESULT=$(python Test.py)
-
-      - name: Display Python version
-        run: |
-            echo ${{steps.testresult.outputs.RESULT}}
+          output=$(python Test.py)
+          output="${output//'%'/'%25'}"
+          output="${output//$'\n'/'%0A'}"
+          output="${output//$'\r'/'%0D'}" 
+          echo "::set-output name=changelog::$output"
+        id: step1
+      - name: Print changelog
+        run: echo "${{ steps.step1.outputs.changelog }}"
