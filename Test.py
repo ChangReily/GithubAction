@@ -1,5 +1,3 @@
-import sys
-import os
 import pandas as pd
 import datetime
 import requests
@@ -8,18 +6,13 @@ from bs4 import BeautifulSoup
 from io import StringIO
 import time
 import re
-# print (now.isoweekday())
-
-
 
 def GetOpenDayList ():
-    # Get holiday list
     url = f'https://openapi.twse.com.tw/v1/holidaySchedule/holidaySchedule'
     r = requests.get(url)
     jsondata = json.loads (r.text)
     df = pd.DataFrame(jsondata)
     now = datetime.datetime.now()
-    # update year
     df['Date'] = df.Date.apply(lambda x: str(now.year) + x[-4:])
     HolidayList = df['Date'].to_list()
 
@@ -34,7 +27,6 @@ def GetOpenDayList ():
             continue
         if CheckDay.strftime('%Y%m%d') in HolidayList:
             continue
-        # print (CheckDay.strftime('%Y%m%d'))
         if Count < 10:
             OpenDayList.append(CheckDay.strftime('%Y%m%d'))
             Count=Count+1
@@ -62,7 +54,6 @@ def DownloadCompanyInfo():
         NameList.append(name['value'])
     # print (NameList[0])
 
-    print (f'下載上市公司基本資料彙總表.........')
     r = requests.post(url='https://mops.twse.com.tw/server-java/t105sb02', 
                         data={'firstin':'true',
                             'step':'10',
@@ -77,7 +68,9 @@ def DownloadCompanyInfo():
                             '產業類別': 'Industry',
                             '實收資本額(元)': 'PaidinCapital',
                             }) 
-    df = df[df['PaidinCapital'] >= 2000000000]
+    df['PaidinCapital'] = df.apply(lambda x: x['PaidinCapital']/100000000, axis=1)
+    df['PaidinCapital'] = df['PaidinCapital'].round(decimals = 2)
+    df = df[df['PaidinCapital'] >= 20]
     df = df.reset_index(drop = True)
     return df
 
@@ -98,7 +91,6 @@ def DownloadFundInfo():
         NameList.append(name['value'])
     # print (NameList[0])
 
-    print (f'下載基金基本資料彙總表.........')
     r = requests.post(url='https://mops.twse.com.tw/server-java/t105sb02', 
                         data={'firstin':'true',
                             'step':'10',
@@ -176,17 +168,14 @@ def GetInfoData():
     TotalDf= pd.merge (CompanyFundDf, TradeListDf , how='left', left_on=CompanyFundDf.SecurityCode, right_on=TradeListDf.SecurityCode)
     TotalDf = TotalDf.rename(columns={'key_0':'SecurityCode'}).drop(columns=['SecurityCode_x','SecurityCode_y'])
     TotalDf = TotalDf[['SecurityCode', 'SecurityName', 'Industry', 'PaidinCapital']]
-    
-    TotalDf['PaidinCapital'] = TotalDf.apply(lambda x: x['PaidinCapital']/100000000, axis=1)
-    TotalDf['PaidinCapital'] = TotalDf['PaidinCapital'].round(decimals = 2)   
     TotalDf = TotalDf.dropna()
-    TotalDf = TotalDf.reset_index(drop = True)
-
-    # print (TotalDf)
-        
+    TotalDf = TotalDf.reset_index(drop = True)      
     return TotalDf 
 
 if __name__ == '__main__':
+    # pd.set_option("display.max_columns", None)
+    # pd.set_option("display.max_rows", None)
+
     OpenDayList = GetOpenDayList()
     print(OpenDayList)
     
