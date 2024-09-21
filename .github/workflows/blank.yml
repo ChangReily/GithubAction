@@ -37,14 +37,6 @@ jobs:
             python -m pip install --upgrade pip
             if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
-      - name: Display Python version
+      - name: Run Python
         run: |
           python Test.py
-          # output="${output//'%'/'%25'}"
-          # output="${output//$'\n'}"
-          # output="${output//$'\r'/'%0D'}" 
-          # echo "::set-output name=changelog::$output"
-          # echo "changelog=$output" >> $GITHUB_OUTPUT
-        #id: step1
-      - name: Print changelog
-        run: echo "${{ steps.step1.outputs.changelog }}"
